@@ -93,7 +93,7 @@ inner join teams t on p.teamid = t.id;`;
     });
 
     it('Returns weekly query when passed that param', () => {
-      const seasonQuery = `SELECT
+      const weekQuery = `SELECT
 t.name as teamName,
 wp.savesTier2,
 p.lastName,
@@ -122,11 +122,11 @@ wp.passesTier2,
 wp.yellowCards
 FROM practical.weekPlayers wp
 inner join players p on wp.playerId = p.id
-inner join teams t on p.teamid = t.id;`;
+inner join teams t on p.teamid = t.id where wp.weekid = 1;`;
 
-      const res = statsQuery('week');
+      const res = statsQuery('week', 1);
 
-      expect(res).toEqual(seasonQuery);
+      expect(res).toEqual(weekQuery);
     });
   });
   // TODO: Add error handling

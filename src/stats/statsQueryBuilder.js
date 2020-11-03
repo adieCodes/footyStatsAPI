@@ -1,11 +1,14 @@
-const statsQuery = (period = 'season') => {
+const statsQuery = (period = 'season', periodId) => {
   const aliasLookup = {
     season: 'sp',
     week: 'wp',
   };
   const alias = aliasLookup[period];
+  const whereClause = periodId
+    ? `where ${alias}.${period}id = ${periodId};`
+    : '';
 
-  return `SELECT
+  const selectClause = `SELECT
 t.name as teamName,
 ${alias}.savesTier2,
 p.lastName,
@@ -34,7 +37,10 @@ ${alias}.passesTier2,
 ${alias}.yellowCards
 FROM practical.${period}Players ${alias}
 inner join players p on ${alias}.playerId = p.id
-inner join teams t on p.teamid = t.id;`;
+inner join teams t on p.teamid = t.id`;
+
+  //   If there is a period id it means there is some filtering to be done by week/month id
+  return periodId ? `${selectClause} ${whereClause}` : `${selectClause};`;
 };
 
 module.exports = { statsQuery };
