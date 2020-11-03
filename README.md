@@ -24,6 +24,12 @@ The app runs on [http://localhost:3001](http://localhost:3001).
 Runs the app in the development mode. This uses nodemon to restart the server whenever changes are made to the code.
 The app runs on [http://localhost:3001](http://localhost:3001).
 
+### `npm test`
+
+Runs the test scripts.
+
+The matcher looks for any files that include `.spec.js` and I have structured the application by feature. For example, for the stats endpoint we have the associated `controller`, `router`, `queryBuilder` and `tests` in the `src/stats` directory.
+
 ### Pre-commit hook
 
 When committing a pre-commit hook uses a combination of [ESLint](https://eslint.org/) and [Prettier](https://prettier.io/) to:
