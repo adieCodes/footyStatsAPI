@@ -5,6 +5,4 @@ module.exports = (req, res) => {
     if (err) throw err;
     res.send(JSON.stringify(results));
   });
-
-  connection.end();
 };
