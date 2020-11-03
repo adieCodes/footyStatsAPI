@@ -116,6 +116,16 @@ describe('# Stats', () => {
     });
   });
 
+  describe(`## stats/invalid`, () => {
+    it('Should throw 400', async () => {
+      const res = await request(app).get('/stats/invalid');
+      const text = JSON.parse(res.text);
+
+      expect(res.statusCode).toEqual(400);
+      expect(text.message).toContain('Invalid param: We only accept');
+    });
+  });
+
   describe('## statsQueryBuilder', () => {
     it('Should return season query by default', () => {
       const seasonQuery = `SELECT
@@ -227,6 +237,4 @@ inner join teams t on p.teamid = t.id where mp.monthid = 4;`;
 
     expect(res).toEqual(monthlyQuery);
   });
-  // TODO: Add error handling
-  //   TODO: Clarify what id is in res
 });

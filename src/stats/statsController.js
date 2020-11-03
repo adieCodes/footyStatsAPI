@@ -1,8 +1,18 @@
 const connection = require('../db/connection');
 const { statsQuery } = require('./statsQueryBuilder');
 
-module.exports = (req, res) => {
+// eslint-disable-next-line consistent-return
+module.exports = (req, res, next) => {
+  const validParams = ['season', 'week', 'month'];
   const { period } = req.params;
+
+  if (!validParams.includes(period)) {
+    return next({
+      status: 400,
+      message: `Invalid param: We only accept ${validParams.toString()}`,
+    });
+  }
+
   const searchKey = period !== 'season' ? `${period}Id` : null;
   const searchQuery = req.query[searchKey];
   const periodId =
@@ -10,11 +20,11 @@ module.exports = (req, res) => {
   const seasonQuery = statsQuery(period, periodId);
 
   connection.query(seasonQuery, (err, results) => {
-    if (err) throw err;
+    if (err) return next(err);
     const resObj = {
       period: req.params.period,
       stats: results,
     };
-    res.json(resObj);
+    return res.json(resObj);
   });
 };
