@@ -27,3 +27,7 @@ The app runs on [http://localhost:3001](http://localhost:3001).
 ### Pre-commit hook
 
 When committing a pre-commit hook ensures there are no syntax or formatting errors via a combination of [ESLint](https://eslint.org/) and [Prettier](https://prettier.io/).
+
+## Gotchas
+
+To get this application working you need to have a locally running version of MySQL with credentials matching those in `src/db/connection.js`.
