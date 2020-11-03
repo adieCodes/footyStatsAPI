@@ -159,6 +159,42 @@ inner join teams t on p.teamid = t.id where wp.weekid = 1;`;
       expect(res).toEqual(weekQuery);
     });
   });
+  it('Returns monthly query when passed that param', () => {
+    const monthlyQuery = `SELECT
+t.name as teamName,
+mp.savesTier2,
+p.lastName,
+mp.savesTier1,
+mp.subs,
+mp.motms,
+mp.points,
+mp.redCards,
+mp.concedes,
+mp.assists,
+mp.shotsTier1,
+mp.shotsTier2,
+mp.playerId as id,
+mp.starts,
+mp.goals,
+mp.tacklesTier1,
+mp.tacklesTier2,
+mp.ownGoals,
+mp.cleansheets,
+mp.penSaves,
+p.firstName,
+mp.penMisses,
+mp.passesTier1,
+p.position,
+mp.passesTier2,
+mp.yellowCards
+FROM practical.monthPlayers mp
+inner join players p on mp.playerId = p.id
+inner join teams t on p.teamid = t.id where mp.monthid = 4;`;
+
+    const res = statsQuery('month', 4);
+
+    expect(res).toEqual(monthlyQuery);
+  });
   // TODO: Add error handling
   //   TODO: Clarify what id is in res
 });

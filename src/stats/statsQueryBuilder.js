@@ -2,6 +2,7 @@ const statsQuery = (period = 'season', periodId) => {
   const aliasLookup = {
     season: 'sp',
     week: 'wp',
+    month: 'mp',
   };
   const alias = aliasLookup[period];
   const whereClause = periodId
