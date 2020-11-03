@@ -84,6 +84,38 @@ describe('# Stats', () => {
     });
   });
 
+  describe('## /stats/month', () => {
+    it('Should return 200, correct shape data and only stats for that month', async () => {
+      const res = await request(app).get('/stats/month?monthId=9');
+
+      expect(res.statusCode).toEqual(200);
+      expect(res.body.period).toEqual('month');
+      for (let i = 0; i < res.body.stats.length; i += 1) {
+        expect(res.body.stats[i]).toEqual(statShape);
+      }
+      //   Returns only week stats for weekid
+      expect(res.body.stats.length).toEqual(414);
+    });
+    it('Should return 200, correct shape data and all monthly stats if no query', async () => {
+      const res = await request(app).get('/stats/month');
+
+      expect(res.statusCode).toEqual(200);
+      expect(res.body.period).toEqual('month');
+      for (let i = 0; i < res.body.stats.length; i += 1) {
+        expect(res.body.stats[i]).toEqual(statShape);
+      }
+      //   Returns all week stats
+      expect(res.body.stats.length).toEqual(1070);
+    });
+    it('Should return 200 and empty stats array if invalid monthid', async () => {
+      const res = await request(app).get('/stats/month?monthId=allthethings');
+
+      expect(res.statusCode).toEqual(200);
+      expect(res.body.period).toEqual('month');
+      expect(res.body.stats.length).toEqual(0);
+    });
+  });
+
   describe('## statsQueryBuilder', () => {
     it('Should return season query by default', () => {
       const seasonQuery = `SELECT
