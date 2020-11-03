@@ -3,6 +3,6 @@ const statsController = require('./statsController');
 
 const router = express.Router();
 
-router.get('/', statsController);
+router.get('/:period', statsController);
 
 module.exports = router;

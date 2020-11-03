@@ -35,7 +35,7 @@ module.exports = (req, res) => {
   connection.query(seasonQuery, (err, results) => {
     if (err) throw err;
     const resObj = {
-      period: 'season',
+      period: req.params.period,
       stats: results,
     };
     res.json(resObj);

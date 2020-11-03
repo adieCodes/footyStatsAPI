@@ -43,7 +43,7 @@ describe('# Stats', () => {
 
   describe('# /stats/season', () => {
     it('Should return 200 and correct shape data', async () => {
-      const res = await request(app).get('/stats');
+      const res = await request(app).get('/stats/season');
 
       expect(res.statusCode).toEqual(200);
       expect(res.body.period).toEqual('season');
