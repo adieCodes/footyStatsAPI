@@ -51,6 +51,8 @@ describe('# Stats', () => {
       for (let i = 0; i < res.body.stats.length; i += 1) {
         expect(res.body.stats[i]).toEqual(exampleRes.stats[0]);
       }
+      //   Returns all season stats
+      expect(res.body.stats.length).toEqual(487);
     });
   });
 
