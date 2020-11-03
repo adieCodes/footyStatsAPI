@@ -1,6 +1,7 @@
 const request = require('supertest');
 const app = require('../../app');
 const connection = require('../db/connection');
+const { statsQuery } = require('./statsQueryBuilder');
 
 describe('# Stats', () => {
   afterAll(() => {
@@ -41,7 +42,7 @@ describe('# Stats', () => {
     ],
   };
 
-  describe('# /stats/season', () => {
+  describe('## /stats/season', () => {
     it('Should return 200 and correct shape data', async () => {
       const res = await request(app).get('/stats/season');
 
@@ -50,6 +51,45 @@ describe('# Stats', () => {
       for (let i = 0; i < res.body.stats.length; i += 1) {
         expect(res.body.stats[i]).toEqual(exampleRes.stats[0]);
       }
+    });
+  });
+
+  describe('##', () => {
+    it('Should return season query by default', () => {
+      const seasonQuery = `SELECT
+t.name as teamName,
+sp.savesTier2,
+p.lastName,
+sp.savesTier1,
+sp.subs,
+sp.motms,
+sp.points,
+sp.redCards,
+sp.concedes,
+sp.assists,
+sp.shotsTier1,
+sp.shotsTier2,
+sp.playerId as id,
+sp.starts,
+sp.goals,
+sp.tacklesTier1,
+sp.tacklesTier2,
+sp.ownGoals,
+sp.cleansheets,
+sp.penSaves,
+p.firstName,
+sp.penMisses,
+sp.passesTier1,
+p.position,
+sp.passesTier2,
+sp.yellowCards
+FROM practical.seasonPlayers sp
+inner join players p on sp.playerId = p.id
+inner join teams t on p.teamid = t.id;`;
+
+      const res = statsQuery();
+
+      expect(res).toEqual(seasonQuery);
     });
   });
   // TODO: Add error handling
