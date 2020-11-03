@@ -30,4 +30,4 @@ When committing a pre-commit hook ensures there are no syntax or formatting erro
 
 ## Gotchas
 
-To get this application working you need to have a locally running version of MySQL with credentials matching those in `src/db/connection.js`.
+To get this application working you need to have a locally running version of MySQL with credentials matching those in `src/db/connection.js` as well as the seed file.
