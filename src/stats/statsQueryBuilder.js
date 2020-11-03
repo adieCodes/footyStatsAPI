@@ -1,32 +1,40 @@
-const statsQuery = () => `SELECT
+const statsQuery = (period = 'season') => {
+  const aliasLookup = {
+    season: 'sp',
+    week: 'wp',
+  };
+  const alias = aliasLookup[period];
+
+  return `SELECT
 t.name as teamName,
-sp.savesTier2,
+${alias}.savesTier2,
 p.lastName,
-sp.savesTier1,
-sp.subs,
-sp.motms,
-sp.points,
-sp.redCards,
-sp.concedes,
-sp.assists,
-sp.shotsTier1,
-sp.shotsTier2,
-sp.playerId as id,
-sp.starts,
-sp.goals,
-sp.tacklesTier1,
-sp.tacklesTier2,
-sp.ownGoals,
-sp.cleansheets,
-sp.penSaves,
+${alias}.savesTier1,
+${alias}.subs,
+${alias}.motms,
+${alias}.points,
+${alias}.redCards,
+${alias}.concedes,
+${alias}.assists,
+${alias}.shotsTier1,
+${alias}.shotsTier2,
+${alias}.playerId as id,
+${alias}.starts,
+${alias}.goals,
+${alias}.tacklesTier1,
+${alias}.tacklesTier2,
+${alias}.ownGoals,
+${alias}.cleansheets,
+${alias}.penSaves,
 p.firstName,
-sp.penMisses,
-sp.passesTier1,
+${alias}.penMisses,
+${alias}.passesTier1,
 p.position,
-sp.passesTier2,
-sp.yellowCards
-FROM practical.seasonPlayers sp
-inner join players p on sp.playerId = p.id
+${alias}.passesTier2,
+${alias}.yellowCards
+FROM practical.${period}Players ${alias}
+inner join players p on ${alias}.playerId = p.id
 inner join teams t on p.teamid = t.id;`;
+};
 
 module.exports = { statsQuery };
