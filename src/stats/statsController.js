@@ -4,7 +4,9 @@ const { statsQuery } = require('./statsQueryBuilder');
 module.exports = (req, res) => {
   const { period } = req.params;
   const searchKey = period !== 'season' ? `${period}Id` : null;
-  const periodId = period !== 'season' ? req.query[searchKey] : null;
+  const searchQuery = req.query[searchKey];
+  const periodId =
+    period !== 'season' && searchQuery ? connection.escape(searchQuery) : null;
   const seasonQuery = statsQuery(period, periodId);
 
   connection.query(seasonQuery, (err, results) => {
