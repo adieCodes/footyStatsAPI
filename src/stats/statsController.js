@@ -14,6 +14,8 @@ module.exports = (req, res, next) => {
   }
 
   const searchKey = period !== 'season' ? `${period}Id` : null;
+  // Safe to disable this check as we ensure period is valid and we use this to define searchKey
+  // eslint-disable-next-line security/detect-object-injection
   const searchQuery = req.query[searchKey];
   const periodId =
     period !== 'season' && searchQuery ? connection.escape(searchQuery) : null;

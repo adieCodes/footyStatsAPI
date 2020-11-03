@@ -4,6 +4,8 @@ const statsQuery = (period = 'season', periodId) => {
     week: 'wp',
     month: 'mp',
   };
+  // Safe to disable as we validate period before calling this function
+  // eslint-disable-next-line security/detect-object-injection
   const alias = aliasLookup[period];
   const whereClause = periodId
     ? `where ${alias}.${period}id = ${periodId};`
