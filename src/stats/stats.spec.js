@@ -8,38 +8,34 @@ describe('# Stats', () => {
     connection.end();
   });
 
-  const exampleRes = {
-    period: 'week',
-    stats: [
-      {
-        teamName: expect.any(String),
-        savesTier2: expect.any(Number),
-        lastName: expect.any(String),
-        savesTier1: expect.any(Number),
-        subs: expect.any(Number),
-        motms: expect.any(Number),
-        points: expect.any(Number),
-        redCards: expect.any(Number),
-        concedes: expect.any(Number),
-        assists: expect.any(Number),
-        shotsTier1: expect.any(Number),
-        shotsTier2: expect.any(Number),
-        id: expect.any(Number),
-        starts: expect.any(Number),
-        goals: expect.any(Number),
-        tacklesTier1: expect.any(Number),
-        tacklesTier2: expect.any(Number),
-        ownGoals: expect.any(Number),
-        cleansheets: expect.any(Number),
-        penSaves: expect.any(Number),
-        firstName: expect.any(String),
-        penMisses: expect.any(Number),
-        passesTier1: expect.any(Number),
-        position: expect.any(String),
-        passesTier2: expect.any(Number),
-        yellowCards: expect.any(Number),
-      },
-    ],
+  //   expected shape of stat object
+  const statShape = {
+    teamName: expect.any(String),
+    savesTier2: expect.any(Number),
+    lastName: expect.any(String),
+    savesTier1: expect.any(Number),
+    subs: expect.any(Number),
+    motms: expect.any(Number),
+    points: expect.any(Number),
+    redCards: expect.any(Number),
+    concedes: expect.any(Number),
+    assists: expect.any(Number),
+    shotsTier1: expect.any(Number),
+    shotsTier2: expect.any(Number),
+    id: expect.any(Number),
+    starts: expect.any(Number),
+    goals: expect.any(Number),
+    tacklesTier1: expect.any(Number),
+    tacklesTier2: expect.any(Number),
+    ownGoals: expect.any(Number),
+    cleansheets: expect.any(Number),
+    penSaves: expect.any(Number),
+    firstName: expect.any(String),
+    penMisses: expect.any(Number),
+    passesTier1: expect.any(Number),
+    position: expect.any(String),
+    passesTier2: expect.any(Number),
+    yellowCards: expect.any(Number),
   };
 
   describe('## /stats/season', () => {
@@ -49,11 +45,26 @@ describe('# Stats', () => {
       expect(res.statusCode).toEqual(200);
       expect(res.body.period).toEqual('season');
       for (let i = 0; i < res.body.stats.length; i += 1) {
-        expect(res.body.stats[i]).toEqual(exampleRes.stats[0]);
+        expect(res.body.stats[i]).toEqual(statShape);
       }
       //   Returns all season stats
       expect(res.body.stats.length).toEqual(487);
     });
+  });
+
+  describe('## /stats/week?weekid=1', () => {
+    it('Should return 200, correct shape data and only stats for that week', async () => {
+      const res = await request(app).get('/stats/week?weekId=1');
+
+      expect(res.statusCode).toEqual(200);
+      expect(res.body.period).toEqual('week');
+      for (let i = 0; i < res.body.stats.length; i += 1) {
+        expect(res.body.stats[i]).toEqual(statShape);
+      }
+      //   Returns only week stats for weekif
+      expect(res.body.stats.length).toEqual(288);
+    });
+    //   TODO: Test weeks without query
   });
 
   describe('##', () => {
