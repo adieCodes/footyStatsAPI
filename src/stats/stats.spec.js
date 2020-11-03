@@ -52,7 +52,7 @@ describe('# Stats', () => {
     });
   });
 
-  describe('## /stats/week?weekid=1', () => {
+  describe('## /stats/week', () => {
     it('Should return 200, correct shape data and only stats for that week', async () => {
       const res = await request(app).get('/stats/week?weekId=1');
 
@@ -64,7 +64,18 @@ describe('# Stats', () => {
       //   Returns only week stats for weekif
       expect(res.body.stats.length).toEqual(288);
     });
-    //   TODO: Test weeks without query
+    it('Should return 200, correct shape data and all weekly stats if no query', async () => {
+      const res = await request(app).get('/stats/week');
+
+      expect(res.statusCode).toEqual(200);
+      expect(res.body.period).toEqual('week');
+      for (let i = 0; i < res.body.stats.length; i += 1) {
+        expect(res.body.stats[i]).toEqual(statShape);
+      }
+      //   Returns only week stats for weekif
+      expect(res.body.stats.length).toEqual(2447);
+    });
+    // TODO: Handle invalid weekid
   });
 
   describe('##', () => {
