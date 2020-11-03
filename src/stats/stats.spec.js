@@ -61,7 +61,7 @@ describe('# Stats', () => {
       for (let i = 0; i < res.body.stats.length; i += 1) {
         expect(res.body.stats[i]).toEqual(statShape);
       }
-      //   Returns only week stats for weekif
+      //   Returns only week stats for weekid
       expect(res.body.stats.length).toEqual(288);
     });
     it('Should return 200, correct shape data and all weekly stats if no query', async () => {
@@ -72,13 +72,19 @@ describe('# Stats', () => {
       for (let i = 0; i < res.body.stats.length; i += 1) {
         expect(res.body.stats[i]).toEqual(statShape);
       }
-      //   Returns only week stats for weekif
+      //   Returns all week stats
       expect(res.body.stats.length).toEqual(2447);
     });
-    // TODO: Handle invalid weekid
+    it('Should return 200 and empty stats array if invalid weekid', async () => {
+      const res = await request(app).get('/stats/week?weekId=allthethings');
+
+      expect(res.statusCode).toEqual(200);
+      expect(res.body.period).toEqual('week');
+      expect(res.body.stats.length).toEqual(0);
+    });
   });
 
-  describe('##', () => {
+  describe('## statsQueryBuilder', () => {
     it('Should return season query by default', () => {
       const seasonQuery = `SELECT
 t.name as teamName,
