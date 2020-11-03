@@ -26,7 +26,11 @@ The app runs on [http://localhost:3001](http://localhost:3001).
 
 ### Pre-commit hook
 
-When committing a pre-commit hook ensures there are no syntax or formatting errors via a combination of [ESLint](https://eslint.org/) and [Prettier](https://prettier.io/).
+When committing a pre-commit hook uses a combination of [ESLint](https://eslint.org/) and [Prettier](https://prettier.io/) to:
+
+- help identify potential security hotspots, via [eslint-plugin-security](https://www.npmjs.com/package/eslint-plugin-security)
+- check there are no syntax errors
+- consistently format the code
 
 ## Gotchas
 
